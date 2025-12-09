@@ -1,7 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.google.dagger.hilt.android)
     alias(libs.plugins.google.gms.google.services)
 }
@@ -32,14 +30,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+    
     buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.10'
+        viewBinding true
     }
     packaging {
         resources {
@@ -55,20 +48,20 @@ dependencies {
     implementation libs.constraintlayout
     
     // Lifecycle
-    implementation libs.androidx.lifecycle.runtime.ktx
-    implementation libs.androidx.lifecycle.viewmodel.compose
+    implementation libs.androidx.lifecycle.viewmodel
+    implementation libs.androidx.lifecycle.livedata
     
     // Navigation
-    implementation libs.androidx.navigation.compose
+    implementation libs.androidx.navigation.fragment
+    implementation libs.androidx.navigation.ui
     
     // Room
     implementation libs.androidx.room.runtime
-    implementation libs.androidx.room.ktx
-    ksp libs.androidx.room.compiler
+    annotationProcessor libs.androidx.room.compiler
     
     // Hilt
     implementation libs.hilt.android
-    ksp libs.hilt.compiler
+    annotationProcessor libs.hilt.compiler
     
     // Firebase
     implementation platform(libs.firebase.bom)
