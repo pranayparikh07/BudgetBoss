@@ -29,7 +29,8 @@ public class RegisterFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -38,6 +39,27 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        viewModel.registerResult.observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status == Resource.Status.LOADING) {
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.btnRegister.setEnabled(false);
+            } else if (resource.status == Resource.Status.SUCCESS) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.btnRegister.setEnabled(true);
+                Toast.makeText(requireContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
+                // Prevent double navigation
+                NavController navController = Navigation.findNavController(view);
+                if (navController.getCurrentDestination() != null
+                        && navController.getCurrentDestination().getId() == R.id.registerFragment) {
+                    navController.navigate(R.id.action_registerFragment_to_dashboardFragment);
+                }
+            } else if (resource.status == Resource.Status.ERROR) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.btnRegister.setEnabled(true);
+                Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         binding.btnRegister.setOnClickListener(v -> {
             String username = binding.etUsername.getEditText().getText().toString().trim();
@@ -49,21 +71,7 @@ public class RegisterFragment extends Fragment {
                 return;
             }
 
-            viewModel.register(username, email, password).observe(getViewLifecycleOwner(), resource -> {
-                if (resource.status == Resource.Status.LOADING) {
-                    binding.progressBar.setVisibility(View.VISIBLE);
-                    binding.btnRegister.setEnabled(false);
-                } else if (resource.status == Resource.Status.SUCCESS) {
-                    binding.progressBar.setVisibility(View.GONE);
-                    binding.btnRegister.setEnabled(true);
-                    Toast.makeText(requireContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
-                    Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_dashboardFragment);
-                } else if (resource.status == Resource.Status.ERROR) {
-                    binding.progressBar.setVisibility(View.GONE);
-                    binding.btnRegister.setEnabled(true);
-                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
-                }
-            });
+            viewModel.register(username, email, password);
         });
     }
 

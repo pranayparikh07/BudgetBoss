@@ -54,6 +54,12 @@
         <action
             android:id="@+id/action_dashboardFragment_to_addTransactionFragment"
             app:destination="@id/addTransactionFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_transactionsFragment"
+            app:destination="@id/transactionsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTransactionFragment"
@@ -70,4 +76,24 @@
         android:name="com.example.budgetboss.presentation.vault.VaultFragment"
         android:label="fragment_vault"
         tools:layout="@layout/fragment_vault" />
+    <fragment
+        android:id="@+id/analyticsFragment"
+        android:name="com.example.budgetboss.presentation.analytics.AnalyticsFragment"
+        android:label="fragment_analytics"
+        tools:layout="@layout/fragment_analytics" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.budgetboss.presentation.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/investmentsFragment"
+        android:name="com.example.budgetboss.presentation.investments.InvestmentsFragment"
+        android:label="fragment_investments"
+        tools:layout="@layout/fragment_investments" />
+    <fragment
+        android:id="@+id/transactionsFragment"
+        android:name="com.example.budgetboss.presentation.transactions.TransactionsFragment"
+        android:label="fragment_transactions"
+        tools:layout="@layout/fragment_transactions" />
 </navigation>

@@ -26,6 +26,16 @@ public class BudgetRepositoryImpl implements BudgetRepository {
     }
 
     @Override
+    public void updateBudgetGoal(BudgetGoalEntity budgetGoal) {
+        executor.execute(() -> budgetDao.updateBudgetGoal(budgetGoal));
+    }
+
+    @Override
+    public void deleteBudgetGoal(BudgetGoalEntity budgetGoal) {
+        executor.execute(() -> budgetDao.deleteBudgetGoal(budgetGoal));
+    }
+
+    @Override
     public LiveData<List<BudgetGoalEntity>> getAllBudgetGoals() {
         return budgetDao.getAllBudgetGoals();
     }

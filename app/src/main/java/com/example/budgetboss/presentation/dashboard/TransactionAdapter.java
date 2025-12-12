@@ -17,6 +17,7 @@ import java.util.Locale;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
 
+    private OnItemClickListener listener;
     private List<Transaction> transactions = new ArrayList<>();
 
     public void setTransactions(List<Transaction> transactions) {
@@ -24,10 +25,23 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         notifyDataSetChanged();
     }
 
+    public Transaction getItem(int position) {
+        return transactions.get(position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Transaction transaction);
+    }
+
     @NonNull
     @Override
     public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemTransactionBinding binding = ItemTransactionBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemTransactionBinding binding = ItemTransactionBinding.inflate(LayoutInflater.from(parent.getContext()),
+                parent, false);
         return new TransactionViewHolder(binding);
     }
 
@@ -52,16 +66,25 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         public void bind(Transaction transaction) {
             binding.tvTitle.setText(transaction.getTitle());
-            binding.tvDate.setText(new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date(transaction.getDate())));
-            
+            binding.tvDate.setText(
+                    new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date(transaction.getDate())));
+
             String amountPrefix = transaction.getType() == Transaction.TransactionType.CREDIT ? "+" : "-";
-            binding.tvAmount.setText(amountPrefix + "$" + String.format("%.2f", transaction.getAmount()));
-            
+            binding.tvAmount.setText(amountPrefix + "₹" + String.format("%.2f", transaction.getAmount()));
+
             if (transaction.getType() == Transaction.TransactionType.CREDIT) {
-                binding.tvAmount.setTextColor(itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+                binding.tvAmount.setTextColor(
+                        itemView.getContext().getResources().getColor(com.example.budgetboss.R.color.colorSuccess));
             } else {
-                binding.tvAmount.setTextColor(itemView.getContext().getResources().getColor(android.R.color.holo_red_dark));
+                binding.tvAmount.setTextColor(
+                        itemView.getContext().getResources().getColor(com.example.budgetboss.R.color.colorError));
             }
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(transactions.get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

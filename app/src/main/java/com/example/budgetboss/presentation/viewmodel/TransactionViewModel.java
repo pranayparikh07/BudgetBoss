@@ -21,12 +21,11 @@ public class TransactionViewModel extends ViewModel {
         this.authRepository = authRepository;
     }
 
+    private final androidx.lifecycle.MutableLiveData<String> _error = new androidx.lifecycle.MutableLiveData<>();
+    public androidx.lifecycle.LiveData<String> getError() { return _error; }
+
     public void addTransaction(String title, double amount, Transaction.TransactionType type, String category) {
         String userId = "";
-        // Ideally fetch from AuthRepository.getCurrentUser(), but handling LiveData inside VM method for ID is tricky async-wise without transformations.
-        // For MVP, direct access or assuming user is logged in (guarded by UI flow).
-        // Let's us FirebaseAuth instance directly or expose a sync method in Repo. 
-        // For now, I'll assume valid user. Note: In clean arch, use a UseCase.
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
@@ -43,5 +42,23 @@ public class TransactionViewModel extends ViewModel {
             ""
         );
         transactionRepository.addTransaction(transaction);
+    }
+
+    public void deleteTransaction(Transaction transaction, double currentBalance) {
+        if (transaction.getType() == Transaction.TransactionType.CREDIT) {
+            if (currentBalance - transaction.getAmount() < 0) {
+                _error.postValue("Cannot delete: Insufficient balance!");
+                return;
+            }
+        }
+        transactionRepository.deleteTransaction(transaction);
+    }
+
+    public void updateTransaction(Transaction transaction) {
+        transactionRepository.updateTransaction(transaction);
+    }
+
+    public androidx.lifecycle.LiveData<com.example.budgetboss.utils.Resource<Double>> getBalance() {
+        return transactionRepository.getBalance();
     }
 }

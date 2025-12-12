@@ -23,6 +23,8 @@ public interface TransactionDao {
     @Delete
     void deleteTransaction(TransactionEntity transaction);
 
+
+
     @Query("SELECT * FROM transactions ORDER BY date DESC")
     LiveData<List<TransactionEntity>> getAllTransactions();
     

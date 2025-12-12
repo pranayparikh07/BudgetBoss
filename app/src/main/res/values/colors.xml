@@ -2,4 +2,31 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Rich Premium Palette - Deep Navy, Gold, Clean White -->
+    <color name="colorPrimary">#0D1117</color> <!-- Almost Black/Navy -->
+    <color name="colorPrimaryVariant">#161B22</color> <!-- Slightly lighter -->
+    <color name="colorSecondary">#D4AF37</color> <!-- Metallic Gold -->
+    <color name="colorSecondaryVariant">#AA8C2C</color> <!-- Darker Gold -->
+    <color name="colorAccent">#00E5FF</color> <!-- Cyan Accent for pop -->
+    
+    <color name="colorBackground">#0D1117</color> <!-- Dark theme base -->
+    <color name="colorSurface">#161B22</color> <!-- Card background -->
+    <color name="colorSurfaceLight">#21262D</color> <!-- Lighter surface -->
+    
+    <color name="colorError">#CF6679</color> <!-- Material Dark Error -->
+    <color name="colorSuccess">#00C853</color> <!-- Vibrant Green -->
+    
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorOnBackground">#E6EDF3</color> <!-- Off white text -->
+    <color name="colorOnSurface">#E6EDF3</color>
+    
+    <color name="cinematic_bg_start">#0f2027</color>
+    <color name="cinematic_bg_mid">#203a43</color>
+    <color name="cinematic_bg_end">#2c5364</color>
+    
+    <!-- Text Colors -->
+    <color name="textColorPrimary">#E6EDF3</color>
+    <color name="textColorSecondary">#8B949E</color>
 </resources>

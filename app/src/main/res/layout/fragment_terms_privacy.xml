@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/colorBackground">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Terms &amp; Privacy Policy"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/textColorPrimary"
+        android:layout_marginBottom="24dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#101010"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Privacy Policy\n\n1. Data Collection: We collect personal data such as name, email, and financial transactions.\n2. Usage: Data is used to provide financial insights.\n3. Security: We use encryption to protect your data.\n\nTerms and Conditions\n\n1. Acceptance: By using this app, you agree to these terms.\n2. Disclaimer: Financial advice provided by AI is for informational purposes only.\n3. Liability: We are not liable for any financial losses.\n\n(This is a placeholder for the actual legal text.)"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="16sp"/>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

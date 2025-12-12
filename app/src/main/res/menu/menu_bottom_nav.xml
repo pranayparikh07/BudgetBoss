@@ -3,13 +3,21 @@
     <item
         android:id="@+id/dashboardFragment"
         android:icon="@android:drawable/ic_dialog_info"
-        android:title="Dashboard" />
+        android:title="Home" />
     <item
         android:id="@+id/budgetFragment"
-        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:icon="@android:drawable/ic_lock_idle_low_battery"
         android:title="Budget" />
     <item
         android:id="@+id/vaultFragment"
         android:icon="@android:drawable/ic_lock_lock"
         android:title="Vault" />
+    <item
+        android:id="@+id/investmentsFragment"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Investments" />
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="Profile" />
 </menu>

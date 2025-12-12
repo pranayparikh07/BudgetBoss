@@ -76,6 +76,30 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
+    public void updateTransaction(Transaction transaction) {
+        TransactionEntity entity = mapToEntity(transaction);
+        executor.execute(() -> transactionDao.updateTransaction(entity));
+
+        if (firebaseAuth.getCurrentUser() != null) {
+            String userId = firebaseAuth.getCurrentUser().getUid();
+            DatabaseReference ref = firebaseDatabase.getReference("transactions").child(userId).child(transaction.getId());
+            ref.setValue(transaction);
+        }
+    }
+
+    @Override
+    public void deleteTransaction(Transaction transaction) {
+        TransactionEntity entity = mapToEntity(transaction);
+        executor.execute(() -> transactionDao.deleteTransaction(entity));
+
+        if (firebaseAuth.getCurrentUser() != null) {
+            String userId = firebaseAuth.getCurrentUser().getUid();
+            DatabaseReference ref = firebaseDatabase.getReference("transactions").child(userId).child(transaction.getId());
+            ref.removeValue();
+        }
+    }
+
+    @Override
     public LiveData<List<Transaction>> getAllTransactions() {
         return Transformations.map(transactionDao.getAllTransactions(), entities -> {
             List<Transaction> transactions = new ArrayList<>();
@@ -145,6 +169,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     private Transaction mapToDomain(TransactionEntity entity) {
         return new Transaction(
+                entity.id,
                 entity.userId,
                 entity.title,
                 entity.amount,

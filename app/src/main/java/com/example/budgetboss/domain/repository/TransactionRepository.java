@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface TransactionRepository {
     void addTransaction(Transaction transaction);
+    void updateTransaction(Transaction transaction);
+    void deleteTransaction(Transaction transaction);
     LiveData<List<Transaction>> getAllTransactions();
     LiveData<Resource<Double>> getIncome();
     LiveData<Resource<Double>> getExpense();

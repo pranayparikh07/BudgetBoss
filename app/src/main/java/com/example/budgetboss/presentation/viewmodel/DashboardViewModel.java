@@ -46,8 +46,16 @@ public class DashboardViewModel extends ViewModel {
     public LiveData<User> getCurrentUser() {
         return authRepository.getCurrentUser();
     }
-    
+
     public void logout() {
         authRepository.logout();
+    }
+
+    public void deleteTransaction(Transaction transaction) {
+        transactionRepository.deleteTransaction(transaction);
+    }
+
+    public void addTransaction(Transaction transaction) {
+        transactionRepository.addTransaction(transaction);
     }
 }
