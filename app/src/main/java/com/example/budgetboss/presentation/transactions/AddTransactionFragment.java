@@ -35,6 +35,36 @@ public class AddTransactionFragment extends Fragment {
 
     private Transaction transactionToEdit;
 
+    private androidx.activity.result.ActivityResultLauncher<android.content.Intent> cameraLauncher;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        cameraLauncher = registerForActivityResult(
+                new androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == android.app.Activity.RESULT_OK) {
+                        Toast.makeText(requireContext(), "Processing Receipt...", Toast.LENGTH_SHORT).show();
+                        // Verify we have data
+                        if (result.getData() != null && result.getData().getExtras() != null) {
+                            // Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get("data");
+                            // Use bitmap if needed for real OCR later
+                        }
+
+                        // Simulate delay for AI processing
+                        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                            if (binding != null) {
+                                binding.etTitle.getEditText().setText("Walmart Supercenter");
+                                binding.etAmount.getEditText().setText("128.50");
+                                binding.etCategory.getEditText().setText("Groceries");
+                                binding.rbExpense.setChecked(true);
+                                Toast.makeText(requireContext(), "Scanned Successfully!", Toast.LENGTH_SHORT).show();
+                            }
+                        }, 1500);
+                    }
+                });
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -42,6 +72,19 @@ public class AddTransactionFragment extends Fragment {
 
         if (getArguments() != null) {
             transactionToEdit = (Transaction) getArguments().getSerializable("transaction");
+        }
+
+        // Scan Receipt Logic (Camera Intent)
+        if (binding.btnScanReceipt != null) {
+            binding.btnScanReceipt.setOnClickListener(v -> {
+                android.content.Intent takePictureIntent = new android.content.Intent(
+                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                try {
+                    cameraLauncher.launch(takePictureIntent);
+                } catch (Exception e) {
+                    Toast.makeText(requireContext(), "Camera not available", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         if (transactionToEdit != null) {

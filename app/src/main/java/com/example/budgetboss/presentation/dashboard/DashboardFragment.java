@@ -67,6 +67,23 @@ public class DashboardFragment extends Fragment {
 
         viewModel.getRecentTransactions().observe(getViewLifecycleOwner(), transactions -> {
             adapter.setTransactions(transactions);
+
+            // Connect Real Chart Data
+            com.example.budgetboss.utils.SimpleLineChartView chartView = view
+                    .findViewById(com.example.budgetboss.R.id.chartView);
+            if (chartView != null && transactions != null && !transactions.isEmpty()) {
+                java.util.List<Float> chartPoints = new java.util.ArrayList<>();
+                // Take last 7 or all
+                // Transactions are likely sorted Newest First.
+                // We want chart Left->Right as Oldest->Newest.
+                // So take first N (which are newest) and reverse them.
+                int limit = Math.min(transactions.size(), 7);
+                for (int i = 0; i < limit; i++) {
+                    chartPoints.add((float) transactions.get(i).getAmount());
+                }
+                java.util.Collections.reverse(chartPoints);
+                chartView.setData(chartPoints);
+            }
         });
 
         adapter.setOnItemClickListener(transaction -> {
@@ -79,6 +96,21 @@ public class DashboardFragment extends Fragment {
         viewModel.getBalance().observe(getViewLifecycleOwner(), resource -> {
             if (resource.data != null) {
                 binding.tvTotalBalance.setText(String.format("₹%.2f", resource.data));
+
+                // Update Widget Prefs
+                android.content.SharedPreferences prefs = requireContext().getSharedPreferences("BudgetBossPrefs",
+                        android.content.Context.MODE_PRIVATE);
+                prefs.edit().putFloat("total_balance", resource.data.floatValue()).apply();
+
+                // Trigger Widget Update
+                android.content.Intent intent = new android.content.Intent(requireContext(),
+                        com.example.budgetboss.widget.BudgetWidget.class);
+                intent.setAction(android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                int[] ids = android.appwidget.AppWidgetManager.getInstance(requireContext())
+                        .getAppWidgetIds(new android.content.ComponentName(requireContext(),
+                                com.example.budgetboss.widget.BudgetWidget.class));
+                intent.putExtra(android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+                requireContext().sendBroadcast(intent);
             }
         });
 
@@ -126,22 +158,26 @@ public class DashboardFragment extends Fragment {
                     .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_addTransactionFragment);
         });
 
-        setupChart(view);
-    }
+        binding.btnAskAI.setOnClickListener(v -> {
+            androidx.navigation.Navigation.findNavController(view)
+                    .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_aiChatFragment);
+        });
 
-    private void setupChart(View view) {
-        com.example.budgetboss.utils.SimpleLineChartView chartView = view
-                .findViewById(com.example.budgetboss.R.id.chartView);
-        if (chartView != null) {
-            java.util.List<Float> mockData = new java.util.ArrayList<>();
-            mockData.add(100f);
-            mockData.add(400f);
-            mockData.add(300f);
-            mockData.add(700f);
-            mockData.add(500f);
-            mockData.add(800f);
-            chartView.setData(mockData);
+        android.widget.Button btnCards = view.findViewById(com.example.budgetboss.R.id.btnMyCards);
+        if (btnCards != null) {
+            btnCards.setOnClickListener(v -> {
+                androidx.navigation.Navigation.findNavController(view)
+                        .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_cardsFragment);
+            });
         }
+
+        // Notification Icon Listener (Added dynamically or in layout)
+        android.widget.ImageView btnNotify = view.findViewById(com.example.budgetboss.R.id.btnNotifications);
+        if (btnNotify != null) {
+            btnNotify.setOnClickListener(v -> androidx.navigation.Navigation.findNavController(view)
+                    .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_notificationsFragment));
+        }
+
     }
 
     private void updateSavings() {

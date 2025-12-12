@@ -61,31 +61,56 @@ public class SimpleLineChartView extends View {
         float width = getWidth();
         float height = getHeight();
 
+        float paddingVertical = 40f;
+        float usableHeight = height - (2 * paddingVertical);
+
         // Normalize data to fit height
         float max = 0;
-        for (float f : dataPoints)
+        float min = Float.MAX_VALUE;
+        for (float f : dataPoints) {
             if (f > max)
                 max = f;
-        if (max == 0)
-            max = 1; // Avoid divide by zero
+            if (f < min)
+                min = f;
+        }
+
+        // If all values are same or 0
+        if (max == min) {
+            max = max + 1; // Avoid 0 devision
+        }
+        float range = max - min;
+        if (range == 0)
+            range = 1;
+
+        if (dataPoints.size() == 1) {
+            // Draw single point line
+            canvas.drawLine(0, height / 2, width, height / 2, linePaint);
+            return;
+        }
 
         float spacing = width / (dataPoints.size() - 1);
 
         linePath.reset();
-        linePath.moveTo(0, height - (dataPoints.get(0) / max * height));
+        // Calculate Y: height - paddingBottom - (normalized * usableHeight)
+        // normalized: (val - min) / range;
+        // Let's perform simple relative to 0 for budget charts usually
+        // Or relative to min? Let's stick to relative to 0 for budget (absolute amount)
+        // If we want relative to 0, range is just max.
+
+        float startY = height - paddingVertical - (dataPoints.get(0) / max * usableHeight);
+        linePath.moveTo(0, startY);
 
         for (int i = 1; i < dataPoints.size(); i++) {
             float x = i * spacing;
-            float y = height - (dataPoints.get(i) / max * height);
+            float y = height - paddingVertical - (dataPoints.get(i) / max * usableHeight);
 
             // Create cubic bezier for smooth curve
             float prevX = (i - 1) * spacing;
-            float prevY = height - (dataPoints.get(i - 1) / max * height);
+            float prevY = height - paddingVertical - (dataPoints.get(i - 1) / max * usableHeight);
             float controlX1 = prevX + (x - prevX) / 2;
             float controlX2 = x - (x - prevX) / 2;
 
             linePath.cubicTo(controlX1, prevY, controlX2, y, x, y);
-            // linePath.lineTo(x, y); // Linear
         }
 
         canvas.drawPath(linePath, linePaint);

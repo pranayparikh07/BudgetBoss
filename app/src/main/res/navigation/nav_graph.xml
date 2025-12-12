@@ -60,7 +60,22 @@
         <action
             android:id="@+id/action_dashboardFragment_to_analyticsFragment"
             app:destination="@id/analyticsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_aiChatFragment"
+            app:destination="@id/aiChatFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_cardsFragment"
+            app:destination="@id/cardsFragment" />
     </fragment>
+    
+    <fragment
+        android:id="@+id/cardsFragment"
+        android:name="com.example.budgetboss.presentation.cards.CardsFragment"
+        android:label="fragment_cards"
+        tools:layout="@layout/fragment_cards" />
     <fragment
         android:id="@+id/addTransactionFragment"
         android:name="com.example.budgetboss.presentation.transactions.AddTransactionFragment"
@@ -70,7 +85,20 @@
         android:id="@+id/budgetFragment"
         android:name="com.example.budgetboss.presentation.budget.BudgetFragment"
         android:label="fragment_budget"
-        tools:layout="@layout/fragment_budget" />
+        tools:layout="@layout/fragment_budget">
+        <action
+            android:id="@+id/action_budgetFragment_to_budgetDetailsFragment"
+            app:destination="@id/budgetDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/budgetDetailsFragment"
+        android:name="com.example.budgetboss.presentation.budget.BudgetDetailsFragment"
+        android:label="fragment_budget_details"
+        tools:layout="@layout/fragment_budget_details">
+        <argument
+            android:name="budgetId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/vaultFragment"
         android:name="com.example.budgetboss.presentation.vault.VaultFragment"
@@ -85,7 +113,11 @@
         android:id="@+id/profileFragment"
         android:name="com.example.budgetboss.presentation.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/investmentsFragment"
         android:name="com.example.budgetboss.presentation.investments.InvestmentsFragment"
@@ -96,4 +128,35 @@
         android:name="com.example.budgetboss.presentation.transactions.TransactionsFragment"
         android:label="fragment_transactions"
         tools:layout="@layout/fragment_transactions" />
+    <fragment
+        android:id="@+id/aiChatFragment"
+        android:name="com.example.budgetboss.presentation.ai.AIChatFragment"
+        android:label="fragment_ai_chat"
+        tools:layout="@layout/fragment_ai_chat" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.budgetboss.presentation.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_helpSupportFragment"
+            app:destination="@id/helpSupportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpSupportFragment"
+        android:name="com.example.budgetboss.presentation.settings.HelpSupportFragment"
+        android:label="fragment_help_support"
+        tools:layout="@layout/fragment_help_support">
+        <action
+            android:id="@+id/action_helpSupportFragment_to_aiChatFragment"
+            app:destination="@id/aiChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.budgetboss.presentation.notifications.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
 </navigation>

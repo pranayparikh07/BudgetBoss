@@ -36,14 +36,32 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         AuthViewModel viewModel = new androidx.lifecycle.ViewModelProvider(this).get(AuthViewModel.class);
         NavController navController = Navigation.findNavController(view);
+        android.content.SharedPreferences prefs = requireContext().getSharedPreferences("BudgetBossPrefs",
+                android.content.Context.MODE_PRIVATE);
+        String savedEmail = prefs.getString("remember_email", null);
+        if (savedEmail != null) {
+            binding.etEmail.getEditText().setText(savedEmail);
+            binding.cbRemember.setChecked(true);
+        }
 
         viewModel.loginResult.observe(getViewLifecycleOwner(), resource -> {
             binding.btnLogin.setEnabled(true);
             if (resource != null) {
                 if (resource.status == com.example.budgetboss.utils.Resource.Status.SUCCESS) {
+                    if (binding.cbRemember.isChecked()) {
+                        String email = binding.etEmail.getEditText().getText().toString().trim();
+                        prefs.edit().putString("remember_email", email).apply();
+                    } else {
+                        prefs.edit().remove("remember_email").apply();
+                    }
+
                     if (navController.getCurrentDestination() != null
                             && navController.getCurrentDestination().getId() == R.id.loginFragment) {
-                        navController.navigate(R.id.action_loginFragment_to_dashboardFragment);
+                        try {
+                            navController.navigate(R.id.action_loginFragment_to_dashboardFragment);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 } else if (resource.status == com.example.budgetboss.utils.Resource.Status.ERROR) {
                     Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
@@ -61,6 +79,16 @@ public class LoginFragment extends Fragment {
             }
             binding.btnLogin.setEnabled(false);
             viewModel.login(email, password);
+        });
+
+        binding.tvForgotPassword.setOnClickListener(v -> {
+            String email = binding.etEmail.getEditText().getText().toString().trim();
+            if (email.isEmpty()) {
+                Toast.makeText(requireContext(), "Enter email to reset password", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(requireContext(), "Reset link sent to " + email, Toast.LENGTH_SHORT).show();
+                // viewModel.resetPassword(email); // Implement later
+            }
         });
 
         binding.tvRegisterLink.setOnClickListener(v -> {

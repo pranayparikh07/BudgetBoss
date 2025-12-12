@@ -57,6 +57,9 @@ public class ProfileFragment extends Fragment {
         binding.btnTerms.setOnClickListener(v -> new TermsPrivacyFragment().show(getParentFragmentManager(), "terms"));
         binding.btnDeleteAccount.setOnClickListener(v -> android.widget.Toast
                 .makeText(requireContext(), "Account Deletion Requested", android.widget.Toast.LENGTH_SHORT).show());
+
+        binding.btnSettings.setOnClickListener(v -> androidx.navigation.Navigation.findNavController(view)
+                .navigate(com.example.budgetboss.R.id.action_profileFragment_to_settingsFragment));
     }
 
     private void showEditProfileDialog() {

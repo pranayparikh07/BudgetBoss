@@ -52,13 +52,19 @@ public class BudgetFragment extends Fragment {
     }
 
     private void showBudgetOptions(BudgetGoalEntity budget) {
-        String[] options = { "Edit", "Delete" };
+        String[] options = { "View Analysis", "Edit", "Delete" };
         new android.app.AlertDialog.Builder(requireContext())
                 .setTitle("Budget Options")
                 .setItems(options, (dialog, which) -> {
-                    if (which == 0) { // Edit
+                    if (which == 0) { // View Analysis
+                        Bundle bundle = new Bundle();
+                        bundle.putString("budgetId", budget.category);
+                        androidx.navigation.Navigation.findNavController(requireView())
+                                .navigate(com.example.budgetboss.R.id.action_budgetFragment_to_budgetDetailsFragment,
+                                        bundle);
+                    } else if (which == 1) { // Edit
                         showAddBudgetDialog(budget);
-                    } else if (which == 1) { // Delete
+                    } else if (which == 2) { // Delete
                         new android.app.AlertDialog.Builder(requireContext())
                                 .setTitle("Delete Budget")
                                 .setMessage("Are you sure you want to delete this budget goal?")
