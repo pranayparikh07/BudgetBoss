@@ -64,6 +64,13 @@
 - **About Section**: App information and credits
 - **Sign Out**: Secure logout functionality
 
+### 🎬 First Launch Experience
+- **Intro Screen**: Chalkboard-style animated intro (shows only once)
+- **Three Words**: "TRACK", "SAVE", "GROW" appear one after another
+- **Chalk Font**: Hand-drawn chalk writing animation effect
+- **Dark Chalkboard**: Green-tinted blackboard with wooden frame
+- **Smooth Transition**: Fade out to main app after animation
+
 ---
 
 ## 🎨 Design System

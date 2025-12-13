@@ -73,6 +73,15 @@
 
     <style name="Theme.BudgetBoss" parent="Base.Theme.BudgetBoss" />
 
+    <!-- Fullscreen theme for Intro screen -->
+    <style name="Theme.BudgetBoss.Fullscreen" parent="Theme.BudgetBoss">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
     <!-- Custom Typography Styles -->
     <style name="TextAppearance.BudgetBoss.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
         <item name="android:fontFamily">sans-serif</item>

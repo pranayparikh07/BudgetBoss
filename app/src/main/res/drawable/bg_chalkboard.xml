@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Base dark background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#1C1C1C" />
+        </shape>
+    </item>
+    
+    <!-- Subtle gradient for depth -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="135"
+                android:startColor="#0D2818"
+                android:centerColor="#1C1C1C"
+                android:endColor="#1A1A2E"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Chalkboard green tint overlay -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#0A1F0A" />
+        </shape>
+    </item>
+    
+    <!-- Noise texture simulation with gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="45"
+                android:startColor="#00000000"
+                android:centerColor="#08FFFFFF"
+                android:endColor="#00000000"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Border frame like a real chalkboard -->
+    <item
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp">
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="12dp"
+                android:color="#3D2914" />
+            <corners android:radius="4dp" />
+        </shape>
+    </item>
+    
+</layer-list>
