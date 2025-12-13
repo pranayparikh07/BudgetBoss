@@ -25,9 +25,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Privacy Policy\n\n1. Data Collection: We collect personal data such as name, email, and financial transactions.\n2. Usage: Data is used to provide financial insights.\n3. Security: We use encryption to protect your data.\n\nTerms and Conditions\n\n1. Acceptance: By using this app, you agree to these terms.\n2. Disclaimer: Financial advice provided by AI is for informational purposes only.\n3. Liability: We are not liable for any financial losses.\n\n(This is a placeholder for the actual legal text.)"
             android:textColor="@color/textColorSecondary"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
+                android:text="Privacy Policy\n\n1. Data We Collect: Account identifiers (name, email, optional mobile), profile details you edit, budget/transaction entries you save, and app analytics (crash + performance).\n2. How We Use It: To display balances, budgets, insights, and to send notifications you opt into. We do not sell your data.\n3. Storage &amp; Security: Data is stored in app storage/your linked services and protected via encryption in transit. Keep your device secure.\n4. Sharing: Only with providers required to run the app (analytics, auth, database). No third-party marketing sharing.\n5. Your Choices: You can update profile data, revoke notification permission, or request deletion from Settings > Account.\n6. Children: Not intended for users under 16.\n\nTerms &amp; Conditions\n\n1. Acceptance: Using BudgetBoss means you accept these terms.\n2. Financial Responsibility: Insights are informational; you remain responsible for your financial decisions.\n3. Availability: Features may change; uptime is not guaranteed.\n4. Liability: We are not liable for losses arising from app use.\n5. User Conduct: Do not upload illegal content or infringe on others' rights.\n6. Termination: We may restrict access for misuse or security reasons.\n7. Contact: For questions or deletion requests, reach support within the app."/>
     </ScrollView>
 
     <Button

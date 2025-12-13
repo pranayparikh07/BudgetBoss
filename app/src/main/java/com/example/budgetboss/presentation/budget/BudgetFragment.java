@@ -46,9 +46,18 @@ public class BudgetFragment extends Fragment {
 
         viewModel.getAllBudgets().observe(getViewLifecycleOwner(), budgets -> {
             adapter.setBudgets(budgets);
+            // Show/hide empty state
+            if (budgets == null || budgets.isEmpty()) {
+                binding.layoutEmpty.setVisibility(View.VISIBLE);
+                binding.rvBudgets.setVisibility(View.GONE);
+            } else {
+                binding.layoutEmpty.setVisibility(View.GONE);
+                binding.rvBudgets.setVisibility(View.VISIBLE);
+            }
         });
 
         binding.fabAddBudget.setOnClickListener(v -> showAddBudgetDialog(null));
+        binding.btnAddFirstBudget.setOnClickListener(v -> showAddBudgetDialog(null));
     }
 
     private void showBudgetOptions(BudgetGoalEntity budget) {
@@ -77,74 +86,94 @@ public class BudgetFragment extends Fragment {
     }
 
     private void showAddBudgetDialog(@Nullable BudgetGoalEntity budgetToEdit) {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext());
-        builder.setTitle(budgetToEdit == null ? "Set Budget Goal" : "Edit Budget Goal");
-
-        android.widget.LinearLayout layout = new android.widget.LinearLayout(requireContext());
-        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
-        layout.setPadding(50, 40, 50, 10);
-
-        final android.widget.EditText categoryInput = new android.widget.EditText(requireContext());
-        categoryInput.setHint("Category (e.g. Food, Travel)");
-        if (budgetToEdit != null)
-            categoryInput.setText(budgetToEdit.category);
-        layout.addView(categoryInput);
-
-        final android.widget.EditText limitInput = new android.widget.EditText(requireContext());
-        limitInput.setHint("Limit Amount (₹)");
-        limitInput.setInputType(
-                android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        if (budgetToEdit != null)
-            limitInput.setText(String.valueOf(budgetToEdit.limitAmount));
-        layout.addView(limitInput);
-
-        final android.widget.Spinner periodSpinner = new android.widget.Spinner(requireContext());
-        String[] periods = new String[] { "Monthly", "Weekly", "Yearly" };
-        android.widget.ArrayAdapter<String> periodAdapter = new android.widget.ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_dropdown_item, periods);
-        periodSpinner.setAdapter(periodAdapter);
-        if (budgetToEdit != null) {
-            for (int i = 0; i < periods.length; i++) {
-                if (periods[i].equals(budgetToEdit.period)) {
-                    periodSpinner.setSelection(i);
-                    break;
-                }
-            }
+        View dialogView = getLayoutInflater().inflate(com.example.budgetboss.R.layout.dialog_add_budget, null);
+        
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext(), 
+            android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
+        builder.setView(dialogView);
+        android.app.AlertDialog dialog = builder.create();
+        
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            // Add dim background
+            dialog.getWindow().setDimAmount(0.7f);
         }
-        layout.addView(periodSpinner);
-
-        builder.setView(layout);
-
-        builder.setPositiveButton("Save", (dialog, which) -> {
-            String category = categoryInput.getText().toString().trim();
-            String limitStr = limitInput.getText().toString().trim();
-            String period = (String) periodSpinner.getSelectedItem();
-
-            if (!category.isEmpty() && !limitStr.isEmpty()) {
-                double limit = Double.parseDouble(limitStr);
-
-                if (budgetToEdit != null) {
-                    budgetToEdit.category = category;
-                    budgetToEdit.limitAmount = limit;
-                    budgetToEdit.period = period;
-                    viewModel.updateBudget(budgetToEdit);
-                } else {
-                    String userId = com.google.firebase.auth.FirebaseAuth.getInstance().getUid();
-                    if (userId == null)
-                        userId = "local_user";
-
-                    BudgetGoalEntity budget = new BudgetGoalEntity(
-                            userId,
-                            category,
-                            limit,
-                            period,
-                            System.currentTimeMillis());
-                    viewModel.addBudget(budget);
-                }
+        
+        // Get views
+        android.widget.TextView tvTitle = dialogView.findViewById(com.example.budgetboss.R.id.tvDialogTitle);
+        com.google.android.material.textfield.TextInputEditText etCategory = dialogView.findViewById(com.example.budgetboss.R.id.etCategory);
+        com.google.android.material.textfield.TextInputEditText etLimit = dialogView.findViewById(com.example.budgetboss.R.id.etLimit);
+        com.google.android.material.chip.ChipGroup chipGroupPeriod = dialogView.findViewById(com.example.budgetboss.R.id.chipGroupPeriod);
+        com.google.android.material.chip.Chip chipWeekly = dialogView.findViewById(com.example.budgetboss.R.id.chipWeekly);
+        com.google.android.material.chip.Chip chipMonthly = dialogView.findViewById(com.example.budgetboss.R.id.chipMonthly);
+        com.google.android.material.chip.Chip chipYearly = dialogView.findViewById(com.example.budgetboss.R.id.chipYearly);
+        com.google.android.material.button.MaterialButton btnCancel = dialogView.findViewById(com.example.budgetboss.R.id.btnCancel);
+        com.google.android.material.button.MaterialButton btnSave = dialogView.findViewById(com.example.budgetboss.R.id.btnSave);
+        
+        // Set title based on mode
+        if (budgetToEdit != null) {
+            tvTitle.setText("Edit Budget Goal");
+            btnSave.setText("Update");
+            etCategory.setText(budgetToEdit.category);
+            etLimit.setText(String.valueOf(budgetToEdit.limitAmount));
+            
+            // Set period chip
+            if ("Weekly".equals(budgetToEdit.period)) chipWeekly.setChecked(true);
+            else if ("Yearly".equals(budgetToEdit.period)) chipYearly.setChecked(true);
+            else chipMonthly.setChecked(true);
+        }
+        
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        
+        btnSave.setOnClickListener(v -> {
+            String category = etCategory.getText() != null ? etCategory.getText().toString().trim() : "";
+            String limitStr = etLimit.getText() != null ? etLimit.getText().toString().trim() : "";
+            
+            // Get selected period
+            String period = "Monthly";
+            int checkedId = chipGroupPeriod.getCheckedChipId();
+            if (checkedId == com.example.budgetboss.R.id.chipWeekly) period = "Weekly";
+            else if (checkedId == com.example.budgetboss.R.id.chipYearly) period = "Yearly";
+            
+            if (category.isEmpty()) {
+                etCategory.setError("Please enter a category");
+                return;
             }
+            if (limitStr.isEmpty()) {
+                etLimit.setError("Please enter a limit");
+                return;
+            }
+            
+            double limit = Double.parseDouble(limitStr);
+            
+            if (budgetToEdit != null) {
+                budgetToEdit.category = category;
+                budgetToEdit.limitAmount = limit;
+                budgetToEdit.period = period;
+                viewModel.updateBudget(budgetToEdit);
+                showSuccessMessage("Budget updated successfully!");
+            } else {
+                String userId = com.google.firebase.auth.FirebaseAuth.getInstance().getUid();
+                if (userId == null) userId = "local_user";
+                
+                BudgetGoalEntity budget = new BudgetGoalEntity(
+                    userId, category, limit, period, System.currentTimeMillis());
+                viewModel.addBudget(budget);
+                showSuccessMessage("Budget created! Start tracking your " + category + " expenses.");
+            }
+            dialog.dismiss();
         });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
+        
+        dialog.show();
+    }
+    
+    private void showSuccessMessage(String message) {
+        com.google.android.material.snackbar.Snackbar.make(binding.getRoot(), message, 
+            com.google.android.material.snackbar.Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(requireContext().getResources().getColor(com.example.budgetboss.R.color.status_income, requireContext().getTheme()))
+            .setTextColor(android.graphics.Color.WHITE)
+            .show();
     }
 
     @Override

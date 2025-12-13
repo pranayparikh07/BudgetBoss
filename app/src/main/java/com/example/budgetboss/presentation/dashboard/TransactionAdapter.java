@@ -69,15 +69,32 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             binding.tvDate.setText(
                     new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date(transaction.getDate())));
 
-            String amountPrefix = transaction.getType() == Transaction.TransactionType.CREDIT ? "+" : "-";
-            binding.tvAmount.setText(amountPrefix + "₹" + String.format("%.2f", transaction.getAmount()));
-
-            if (transaction.getType() == Transaction.TransactionType.CREDIT) {
-                binding.tvAmount.setTextColor(
-                        itemView.getContext().getResources().getColor(com.example.budgetboss.R.color.colorSuccess));
+            // Set category text
+            String category = transaction.getCategory();
+            if (category != null && !category.isEmpty()) {
+                binding.tvCategory.setText(category);
+                binding.tvCategory.setVisibility(android.view.View.VISIBLE);
             } else {
-                binding.tvAmount.setTextColor(
-                        itemView.getContext().getResources().getColor(com.example.budgetboss.R.color.colorError));
+                binding.tvCategory.setVisibility(android.view.View.GONE);
+            }
+
+            String amountPrefix = transaction.getType() == Transaction.TransactionType.CREDIT ? "+" : "-";
+            binding.tvAmount.setText(amountPrefix + "₹" + String.format(Locale.getDefault(), "%.2f", transaction.getAmount()));
+
+            // Set colors and icon based on transaction type
+            android.content.Context ctx = itemView.getContext();
+            if (transaction.getType() == Transaction.TransactionType.CREDIT) {
+                binding.tvAmount.setTextColor(ctx.getResources().getColor(com.example.budgetboss.R.color.status_income, ctx.getTheme()));
+                binding.iconContainer.setBackgroundResource(com.example.budgetboss.R.drawable.bg_stat_income);
+                binding.ivCategoryIcon.setImageResource(com.example.budgetboss.R.drawable.ic_arrow_income);
+                binding.ivCategoryIcon.setImageTintList(android.content.res.ColorStateList.valueOf(
+                        ctx.getResources().getColor(com.example.budgetboss.R.color.status_income, ctx.getTheme())));
+            } else {
+                binding.tvAmount.setTextColor(ctx.getResources().getColor(com.example.budgetboss.R.color.status_expense, ctx.getTheme()));
+                binding.iconContainer.setBackgroundResource(com.example.budgetboss.R.drawable.bg_stat_expense);
+                binding.ivCategoryIcon.setImageResource(com.example.budgetboss.R.drawable.ic_arrow_expense);
+                binding.ivCategoryIcon.setImageTintList(android.content.res.ColorStateList.valueOf(
+                        ctx.getResources().getColor(com.example.budgetboss.R.color.status_expense, ctx.getTheme())));
             }
 
             itemView.setOnClickListener(v -> {

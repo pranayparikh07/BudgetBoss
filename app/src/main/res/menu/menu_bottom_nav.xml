@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/dashboardFragment"
-        android:icon="@android:drawable/ic_dialog_info"
+        android:icon="@drawable/ic_home"
         android:title="Home" />
     <item
         android:id="@+id/budgetFragment"
-        android:icon="@android:drawable/ic_lock_idle_low_battery"
+        android:icon="@drawable/ic_budget"
         android:title="Budget" />
     <item
         android:id="@+id/vaultFragment"
-        android:icon="@android:drawable/ic_lock_lock"
+        android:icon="@drawable/ic_vault"
         android:title="Vault" />
     <item
         android:id="@+id/investmentsFragment"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/ic_investments"
         android:title="Investments" />
     <item
         android:id="@+id/profileFragment"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/ic_profile"
         android:title="Profile" />
 </menu>

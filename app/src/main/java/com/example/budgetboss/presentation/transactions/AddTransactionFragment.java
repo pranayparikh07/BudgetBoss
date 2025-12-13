@@ -1,5 +1,7 @@
 package com.example.budgetboss.presentation.transactions;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -7,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,6 +20,7 @@ import androidx.navigation.Navigation;
 import com.example.budgetboss.databinding.FragmentAddTransactionBinding;
 import com.example.budgetboss.domain.models.Transaction;
 import com.example.budgetboss.presentation.viewmodel.TransactionViewModel;
+import com.example.budgetboss.presentation.receipt.ReceiptScannerActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -24,6 +29,35 @@ public class AddTransactionFragment extends Fragment {
 
     private FragmentAddTransactionBinding binding;
     private TransactionViewModel viewModel;
+    
+    private final ActivityResultLauncher<Intent> receiptScannerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Intent data = result.getData();
+                    String title = data.getStringExtra("scanned_title");
+                    String amount = data.getStringExtra("scanned_amount");
+                    String category = data.getStringExtra("scanned_category");
+                    
+                    if (title != null && !title.isEmpty()) {
+                        binding.etTitle.getEditText().setText(title);
+                    }
+                    if (amount != null && !amount.isEmpty()) {
+                        binding.etAmount.getEditText().setText(amount);
+                    }
+                    if (category != null && !category.isEmpty()) {
+                        binding.etCategory.getEditText().setText(category);
+                    }
+                    
+                    com.google.android.material.snackbar.Snackbar.make(binding.getRoot(), 
+                        "Receipt data applied!", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT)
+                        .setBackgroundTint(requireContext().getResources().getColor(
+                            com.example.budgetboss.R.color.status_income, requireContext().getTheme()))
+                        .setTextColor(android.graphics.Color.WHITE)
+                        .show();
+                }
+            }
+    );
 
     @Nullable
     @Override
@@ -35,34 +69,9 @@ public class AddTransactionFragment extends Fragment {
 
     private Transaction transactionToEdit;
 
-    private androidx.activity.result.ActivityResultLauncher<android.content.Intent> cameraLauncher;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cameraLauncher = registerForActivityResult(
-                new androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == android.app.Activity.RESULT_OK) {
-                        Toast.makeText(requireContext(), "Processing Receipt...", Toast.LENGTH_SHORT).show();
-                        // Verify we have data
-                        if (result.getData() != null && result.getData().getExtras() != null) {
-                            // Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get("data");
-                            // Use bitmap if needed for real OCR later
-                        }
-
-                        // Simulate delay for AI processing
-                        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
-                            if (binding != null) {
-                                binding.etTitle.getEditText().setText("Walmart Supercenter");
-                                binding.etAmount.getEditText().setText("128.50");
-                                binding.etCategory.getEditText().setText("Groceries");
-                                binding.rbExpense.setChecked(true);
-                                Toast.makeText(requireContext(), "Scanned Successfully!", Toast.LENGTH_SHORT).show();
-                            }
-                        }, 1500);
-                    }
-                });
     }
 
     @Override
@@ -74,16 +83,11 @@ public class AddTransactionFragment extends Fragment {
             transactionToEdit = (Transaction) getArguments().getSerializable("transaction");
         }
 
-        // Scan Receipt Logic (Camera Intent)
+        // Launch dedicated receipt scanner
         if (binding.btnScanReceipt != null) {
             binding.btnScanReceipt.setOnClickListener(v -> {
-                android.content.Intent takePictureIntent = new android.content.Intent(
-                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                try {
-                    cameraLauncher.launch(takePictureIntent);
-                } catch (Exception e) {
-                    Toast.makeText(requireContext(), "Camera not available", Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(requireContext(), ReceiptScannerActivity.class);
+                receiptScannerLauncher.launch(intent);
             });
         }
 
@@ -124,6 +128,15 @@ public class AddTransactionFragment extends Fragment {
                     }
                 });
             });
+        }
+        // Apply default type based on navigation arg when creating new
+        else {
+            String prefillType = getArguments() != null ? getArguments().getString("prefillType", "expense") : "expense";
+            if ("income".equalsIgnoreCase(prefillType)) {
+                binding.rbIncome.setChecked(true);
+            } else {
+                binding.rbExpense.setChecked(true);
+            }
         }
 
         binding.btnSave.setOnClickListener(v -> {

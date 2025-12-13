@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
+import java.util.Locale;
+
 import com.example.budgetboss.MainActivity;
 import com.example.budgetboss.R;
 
@@ -22,7 +24,7 @@ public class BudgetWidget extends AppWidgetProvider {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         // Default to $0.00 or specific value
         float balance = prefs.getFloat(KEY_BALANCE, 0.00f);
-        String balanceText = String.format("$%.2f", balance);
+        String balanceText = String.format(Locale.getDefault(), "$%.2f", balance);
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_budget);

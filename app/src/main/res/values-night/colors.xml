@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 🧾 Backgrounds & Surfaces (Dark Mode) -->
+    <color name="colorBackground">#020617</color>
+    <color name="colorSurface">#0F172A</color>
+    <color name="colorSurfaceLight">#1E293B</color>
+    <color name="colorCardBorder">#1E293B</color>
+    <color name="colorDivider">#334155</color>
+
+    <!-- ✍️ Typography (Dark Mode) -->
+    <color name="textColorPrimary">#F1F5F9</color>
+    <color name="textColorSecondary">#94A3B8</color>
+
+    <!-- Theme Mapping Overrides for Dark Mode -->
+    <color name="colorPrimary">@color/blue_light</color>
+    <color name="colorPrimaryVariant">@color/blue_primary</color>
+    <color name="colorPrimaryLight">#1E3A5F</color>
+    <color name="colorSecondary">@color/green_light</color>
+    <color name="colorSecondaryVariant">@color/green_secondary</color>
+    <color name="colorAccent">@color/red_light</color>
+
+    <color name="colorError">@color/red_light</color>
+    <color name="colorSuccess">@color/green_light</color>
+
+    <color name="colorOnPrimary">#020617</color>
+    <color name="colorOnSecondary">#020617</color>
+    <color name="colorOnBackground">@color/textColorPrimary</color>
+    <color name="colorOnSurface">@color/textColorPrimary</color>
+    
+    <!-- Convenient Aliases (Dark Mode overrides) -->
+    <color name="textPrimary">@color/textColorPrimary</color>
+    <color name="textSecondary">@color/textColorSecondary</color>
+    <color name="divider">@color/colorDivider</color>
+    <color name="income">#22C55E</color>
+    <color name="expense">#F87171</color>
+    <color name="savings">#60A5FA</color>
+</resources>

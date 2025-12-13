@@ -4,14 +4,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.content.Intent;
+
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.google.android.material.transition.MaterialSharedAxis;
 
 import com.example.budgetboss.databinding.FragmentDashboardBinding;
 import com.example.budgetboss.presentation.viewmodel.DashboardViewModel;
 import com.example.budgetboss.presentation.dashboard.TransactionAdapter;
+import com.example.budgetboss.presentation.receipt.ReceiptScannerActivity;
+import com.example.budgetboss.utils.NotificationHelper;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -19,6 +25,13 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setEnterTransition(new MaterialSharedAxis(MaterialSharedAxis.Y, true));
+        setReturnTransition(new MaterialSharedAxis(MaterialSharedAxis.Y, false));
+    }
 
     @Nullable
     @Override
@@ -95,7 +108,7 @@ public class DashboardFragment extends Fragment {
 
         viewModel.getBalance().observe(getViewLifecycleOwner(), resource -> {
             if (resource.data != null) {
-                binding.tvTotalBalance.setText(String.format("₹%.2f", resource.data));
+                binding.tvTotalBalance.setText(String.format(Locale.getDefault(), "₹%.2f", resource.data));
 
                 // Update Widget Prefs
                 android.content.SharedPreferences prefs = requireContext().getSharedPreferences("BudgetBossPrefs",
@@ -117,7 +130,7 @@ public class DashboardFragment extends Fragment {
         viewModel.getIncome().observe(getViewLifecycleOwner(), resource -> {
             if (resource.data != null) {
                 currentIncome = resource.data;
-                binding.tvIncome.setText(String.format("₹%.2f", currentIncome));
+                binding.tvIncome.setText(String.format(Locale.getDefault(), "₹%.2f", currentIncome));
                 updateSavings();
             }
         });
@@ -125,14 +138,25 @@ public class DashboardFragment extends Fragment {
         viewModel.getExpense().observe(getViewLifecycleOwner(), resource -> {
             if (resource.data != null) {
                 currentExpense = resource.data;
-                binding.tvExpense.setText(String.format("₹%.2f", currentExpense));
+                binding.tvExpense.setText(String.format(Locale.getDefault(), "₹%.2f", currentExpense));
                 updateSavings();
             }
         });
 
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
-            if (user != null) {
-                binding.tvGreeting.setText("Hello, " + user.getUsername());
+            // First try to get name from SharedPreferences (profile data)
+            android.content.SharedPreferences profilePrefs = requireContext().getSharedPreferences("profile_prefs",
+                    android.content.Context.MODE_PRIVATE);
+            String profileName = profilePrefs.getString("full_name", null);
+            
+            if (profileName != null && !profileName.isEmpty()) {
+                // Use first name only for greeting
+                String firstName = profileName.split(" ")[0];
+                binding.tvGreeting.setText(firstName);
+            } else if (user != null && user.getUsername() != null) {
+                binding.tvGreeting.setText(user.getUsername());
+            } else {
+                binding.tvGreeting.setText("User");
             }
         });
 
@@ -148,14 +172,17 @@ public class DashboardFragment extends Fragment {
                 .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_analyticsFragment));
 
         binding.btnQuickIncome.setOnClickListener(v -> {
-            // Can pass args to pre-select type
+            Bundle args = new Bundle();
+            args.putString("prefillType", "income");
             androidx.navigation.Navigation.findNavController(view)
-                    .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_addTransactionFragment);
+                .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_addTransactionFragment, args);
         });
 
         binding.btnQuickExpense.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("prefillType", "expense");
             androidx.navigation.Navigation.findNavController(view)
-                    .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_addTransactionFragment);
+                .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_addTransactionFragment, args);
         });
 
         binding.btnAskAI.setOnClickListener(v -> {
@@ -163,27 +190,41 @@ public class DashboardFragment extends Fragment {
                     .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_aiChatFragment);
         });
 
-        android.widget.Button btnCards = view.findViewById(com.example.budgetboss.R.id.btnMyCards);
-        if (btnCards != null) {
-            btnCards.setOnClickListener(v -> {
-                androidx.navigation.Navigation.findNavController(view)
-                        .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_cardsFragment);
-            });
-        }
+        binding.btnScanReceipt.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), ReceiptScannerActivity.class);
+            startActivity(intent);
+        });
 
-        // Notification Icon Listener (Added dynamically or in layout)
-        android.widget.ImageView btnNotify = view.findViewById(com.example.budgetboss.R.id.btnNotifications);
-        if (btnNotify != null) {
-            btnNotify.setOnClickListener(v -> androidx.navigation.Navigation.findNavController(view)
-                    .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_notificationsFragment));
-        }
+        binding.btnMyCards.setOnClickListener(v -> {
+            androidx.navigation.Navigation.findNavController(view)
+                    .navigate(com.example.budgetboss.R.id.action_dashboardFragment_to_cardsFragment);
+        });
+
+        // Notification Icon Listener now fires a real notification
+        binding.btnNotifications.setOnClickListener(v -> {
+            requestNotificationPermissionIfNeeded();
+            NotificationHelper.showTransactionNotification(
+                requireContext(),
+                "Spending update",
+                "You have new activity waiting in BudgetBoss"
+            );
+        });
 
     }
 
     private void updateSavings() {
         if (binding != null) {
             double savings = currentIncome - currentExpense;
-            binding.tvSavings.setText(String.format("₹%.2f", savings));
+            binding.tvSavings.setText(String.format(Locale.getDefault(), "₹%.2f", savings));
+        }
+    }
+
+    private void requestNotificationPermissionIfNeeded() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (requireContext().checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] { android.Manifest.permission.POST_NOTIFICATIONS }, 1101);
+            }
         }
     }
 }

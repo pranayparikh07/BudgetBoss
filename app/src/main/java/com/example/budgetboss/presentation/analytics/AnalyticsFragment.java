@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Locale;
+
 import com.example.budgetboss.databinding.FragmentAnalyticsBinding;
 import com.example.budgetboss.presentation.viewmodel.DashboardViewModel;
 
@@ -34,22 +36,21 @@ public class AnalyticsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(DashboardViewModel.class); // Reuse DashboardVM for now as it has
                                                                                // income/expense
+        final double[] incomeHolder = { 0.0 };
+        final double[] expenseHolder = { 0.0 };
 
         viewModel.getIncome().observe(getViewLifecycleOwner(), incomeRes -> {
-            viewModel.getExpense().observe(getViewLifecycleOwner(), expenseRes -> {
-                if (binding != null && incomeRes.data != null && expenseRes.data != null) {
-                    double income = incomeRes.data;
-                    double expense = expenseRes.data;
-                    double total = income + expense;
+            if (incomeRes != null && incomeRes.data != null) {
+                incomeHolder[0] = incomeRes.data;
+                updateIncomeExpense(incomeHolder[0], expenseHolder[0]);
+            }
+        });
 
-                    if (total > 0) {
-                        int incomePct = (int) ((income / total) * 100);
-                        binding.pbIncomeExpense.setProgress(incomePct);
-                        binding.tvIncomePct.setText("Income: " + incomePct + "%");
-                        binding.tvExpensePct.setText("Expense: " + (100 - incomePct) + "%");
-                    }
-                }
-            });
+        viewModel.getExpense().observe(getViewLifecycleOwner(), expenseRes -> {
+            if (expenseRes != null && expenseRes.data != null) {
+                expenseHolder[0] = expenseRes.data;
+                updateIncomeExpense(incomeHolder[0], expenseHolder[0]);
+            }
         });
 
         // Mock Top Categories
@@ -75,9 +76,10 @@ public class AnalyticsFragment extends Fragment {
                 StringBuilder sb = new StringBuilder();
                 int count = 0;
                 for (java.util.Map.Entry<String, Double> entry : list) {
-                    if (count >= 3)
+                    if (count >= 3) {
                         break;
-                    sb.append(entry.getKey()).append(": ₹").append(String.format("%.2f", entry.getValue()))
+                    }
+                    sb.append(entry.getKey()).append(": ₹").append(String.format(Locale.getDefault(), "%.2f", entry.getValue()))
                             .append("\n");
                     count++;
                 }
@@ -95,5 +97,17 @@ public class AnalyticsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void updateIncomeExpense(double income, double expense) {
+        if (binding == null)
+            return;
+        double total = income + expense;
+        if (total <= 0)
+            return;
+        int incomePct = (int) ((income / total) * 100);
+        binding.pbIncomeExpense.setProgress(incomePct);
+        binding.tvIncomePct.setText("Income: " + incomePct + "%");
+        binding.tvExpensePct.setText("Expense: " + (100 - incomePct) + "%");
     }
 }

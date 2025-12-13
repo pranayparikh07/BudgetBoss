@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     android:layout_marginHorizontal="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:cardBackgroundColor="@color/colorSurface">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/colorCardBorder"
+    app:cardBackgroundColor="?attr/colorSurface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,35 +19,80 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
+        <!-- Category Icon Container -->
+        <FrameLayout
+            android:id="@+id/iconContainer"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_stat_savings">
+
+            <ImageView
+                android:id="@+id/ivCategoryIcon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_expense"
+                app:tint="@color/status_savings"
+                tools:ignore="ContentDescription"/>
+        </FrameLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="14dp">
+
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Groceries"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
                 android:textStyle="bold"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp"/>
+                android:textColor="?attr/colorOnSurface"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Food &amp; Dining"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginTop="2dp"
+                tools:ignore="HardcodedText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-₹50.00"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                tools:ignore="HardcodedText"/>
+
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Today"
-                android:textSize="12sp"
-                android:textColor="@color/textColorSecondary"/>
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginTop="2dp"
+                tools:ignore="HardcodedText"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-$50.00"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

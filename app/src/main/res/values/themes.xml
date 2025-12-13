@@ -1,28 +1,170 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.BudgetBoss" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Primary Colors -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        
+        <item name="colorPrimaryContainer">@color/colorSurfaceLight</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnSurface</item>
+
+        <!-- Secondary Colors -->
         <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
-        
-        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondaryContainer">@color/colorOnPrimary</item>
+
+        <!-- Tertiary Colors (Accent) -->
+        <item name="colorTertiary">@color/colorAccent</item>
+        <item name="colorOnTertiary">@color/colorOnPrimary</item>
+        <item name="colorTertiaryContainer">@color/colorAccent</item>
+        <item name="colorOnTertiaryContainer">@color/colorOnPrimary</item>
+
+        <!-- Error Colors -->
+        <item name="colorError">@color/colorError</item>
+        <item name="colorOnError">@color/colorOnPrimary</item>
+        <item name="colorErrorContainer">@color/colorError</item>
+        <item name="colorOnErrorContainer">@color/colorOnPrimary</item>
+
+        <!-- Surface Colors -->
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
-        <item name="colorError">@color/colorError</item>
-        
+        <item name="colorSurfaceVariant">@color/colorSurfaceLight</item>
+        <item name="colorOnSurfaceVariant">@color/textColorSecondary</item>
+
+        <!-- Background -->
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorOnBackground">@color/colorOnBackground</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">@color/textColorSecondary</item>
+        <item name="colorOutlineVariant">@color/textColorSecondary</item>
+
         <!-- Status Bar -->
         <item name="android:statusBarColor">@color/colorPrimary</item>
-        <item name="android:windowLightStatusBar">false</item> <!-- Dark theme, so light icons -->
-        
-        <!-- Text Colors -->
-        <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Navigation Bar -->
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+
+        <!-- Typography -->
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.BudgetBoss.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.BudgetBoss.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.BudgetBoss.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.BudgetBoss.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.BudgetBoss.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.BudgetBoss.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.BudgetBoss.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.BudgetBoss.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.BudgetBoss.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.BudgetBoss.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.BudgetBoss.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.BudgetBoss.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.BudgetBoss.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.BudgetBoss.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.BudgetBoss.LabelSmall</item>
+
+        <!-- Shape -->
+        <item name="shapeAppearanceCornerExtraSmall">@style/ShapeAppearance.BudgetBoss.Corner.ExtraSmall</item>
+        <item name="shapeAppearanceCornerSmall">@style/ShapeAppearance.BudgetBoss.Corner.Small</item>
+        <item name="shapeAppearanceCornerMedium">@style/ShapeAppearance.BudgetBoss.Corner.Medium</item>
+        <item name="shapeAppearanceCornerLarge">@style/ShapeAppearance.BudgetBoss.Corner.Large</item>
+        <item name="shapeAppearanceCornerExtraLarge">@style/ShapeAppearance.BudgetBoss.Corner.ExtraLarge</item>
     </style>
 
     <style name="Theme.BudgetBoss" parent="Base.Theme.BudgetBoss" />
+
+    <!-- Custom Typography Styles -->
+    <style name="TextAppearance.BudgetBoss.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.BudgetBoss.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Shape Appearances -->
+    <style name="ShapeAppearance.BudgetBoss.Corner.ExtraSmall" parent="ShapeAppearance.Material3.Corner.ExtraSmall" />
+    <style name="ShapeAppearance.BudgetBoss.Corner.Small" parent="ShapeAppearance.Material3.Corner.Small" />
+    <style name="ShapeAppearance.BudgetBoss.Corner.Medium" parent="ShapeAppearance.Material3.Corner.Medium" />
+    <style name="ShapeAppearance.BudgetBoss.Corner.Large" parent="ShapeAppearance.Material3.Corner.Large" />
+    <style name="ShapeAppearance.BudgetBoss.Corner.ExtraLarge" parent="ShapeAppearance.Material3.Corner.ExtraLarge" />
+
+    <!-- Bottom Navigation Style - No Purple -->
+    <style name="Widget.BudgetBoss.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">?attr/colorSurface</item>
+        <item name="itemIconTint">@color/bottom_nav_color_selector</item>
+        <item name="itemTextColor">@color/bottom_nav_color_selector</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.BudgetBoss.BottomNavigationView.ActiveIndicator</item>
+    </style>
+
+    <style name="Widget.BudgetBoss.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/blue_light</item>
+    </style>
 </resources>

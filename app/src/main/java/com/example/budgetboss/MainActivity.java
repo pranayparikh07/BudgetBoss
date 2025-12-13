@@ -1,7 +1,11 @@
 package com.example.budgetboss;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.graphics.Rect;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
 import dagger.hilt.android.AndroidEntryPoint;
 import com.example.budgetboss.databinding.ActivityMainBinding;
 
@@ -9,10 +13,13 @@ import com.example.budgetboss.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private ViewTreeObserver.OnGlobalLayoutListener keyboardListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Keep content below status bar to avoid overlap with system UI
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -21,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         androidx.navigation.NavController navController = navHostFragment.getNavController();
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = binding.bottomNav;
         androidx.navigation.ui.NavigationUI.setupWithNavController(bottomNav, navController);
+
+        // Hide bottom nav when keyboard is shown
+        setupKeyboardListener();
 
         // Check for widget deep link
         final boolean[] pendingAddTransaction = { false };
@@ -47,5 +57,45 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.setVisibility(android.view.View.GONE);
             }
         });
+    }
+    
+    private void setupKeyboardListener() {
+        final View rootView = binding.getRoot();
+        keyboardListener = () -> {
+            Rect r = new Rect();
+            rootView.getWindowVisibleDisplayFrame(r);
+            int screenHeight = rootView.getRootView().getHeight();
+            int keypadHeight = screenHeight - r.bottom;
+            
+            // If keyboard is shown (keypad height > 15% of screen)
+            if (keypadHeight > screenHeight * 0.15) {
+                binding.bottomNav.setVisibility(View.GONE);
+            } else {
+                // Only show if we're on a screen that should show bottom nav
+                androidx.navigation.fragment.NavHostFragment navHostFragment = 
+                    (androidx.navigation.fragment.NavHostFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment);
+                if (navHostFragment != null) {
+                    int currentDestId = navHostFragment.getNavController().getCurrentDestination() != null 
+                        ? navHostFragment.getNavController().getCurrentDestination().getId() : 0;
+                    if (currentDestId == R.id.dashboardFragment ||
+                        currentDestId == R.id.budgetFragment ||
+                        currentDestId == R.id.vaultFragment ||
+                        currentDestId == R.id.profileFragment ||
+                        currentDestId == R.id.investmentsFragment) {
+                        binding.bottomNav.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        };
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(keyboardListener);
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (keyboardListener != null) {
+            binding.getRoot().getViewTreeObserver().removeOnGlobalLayoutListener(keyboardListener);
+        }
     }
 }

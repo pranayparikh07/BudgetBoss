@@ -1,32 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- 🧠 Core Palette -->
+    <!-- 🔵 Primary – “Authority Blue” -->
+    <color name="blue_primary">#1E3A8A</color>
+    <color name="blue_dark">#172554</color>
+    <color name="blue_light">#3B82F6</color>
+
+    <!-- 🟢 Secondary – “Profit Green” -->
+    <color name="green_secondary">#15803D</color>
+    <color name="green_light">#22C55E</color>
+    <color name="green_dark">#14532D</color>
+
+    <!-- 🔴 Accent – “Controlled Red” -->
+    <color name="red_accent">#B91C1C</color>
+    <color name="red_light">#EF4444</color>
+
+    <!-- 📊 Status Colors -->
+    <color name="status_income">#16A34A</color>
+    <color name="status_expense">#DC2626</color>
+    <color name="status_savings">#2563EB</color>
+    <color name="status_neutral">#64748B</color>
+
+    <!-- 🚀 Premium Gradient -->
+    <color name="gradient_start">#1E3A8A</color>
+    <color name="gradient_end">#22C55E</color>
+
+    <!-- 🧾 Backgrounds & Surfaces (Light Mode Defaults) -->
+    <color name="colorBackground">#F8FAFC</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorSurfaceLight">#F1F5F9</color>
+    <color name="colorCardBorder">#D1D5DB</color>
+    <color name="colorDivider">#E5E7EB</color>
+
+    <!-- ✍️ Typography (Light Mode Defaults) -->
+    <color name="textColorPrimary">#111827</color>
+    <color name="textColorSecondary">#4B5563</color>
+
+    <!-- Theme Mapping -->
+    <color name="colorPrimary">@color/blue_primary</color>
+    <color name="colorPrimaryVariant">@color/blue_dark</color>
+    <color name="colorSecondary">@color/green_secondary</color>
+    <color name="colorSecondaryVariant">@color/green_dark</color>
+    <color name="colorAccent">@color/red_accent</color>
     
-    <!-- Rich Premium Palette - Deep Navy, Gold, Clean White -->
-    <color name="colorPrimary">#0D1117</color> <!-- Almost Black/Navy -->
-    <color name="colorPrimaryVariant">#161B22</color> <!-- Slightly lighter -->
-    <color name="colorSecondary">#D4AF37</color> <!-- Metallic Gold -->
-    <color name="colorSecondaryVariant">#AA8C2C</color> <!-- Darker Gold -->
-    <color name="colorAccent">#00E5FF</color> <!-- Cyan Accent for pop -->
-    
-    <color name="colorBackground">#0D1117</color> <!-- Dark theme base -->
-    <color name="colorSurface">#161B22</color> <!-- Card background -->
-    <color name="colorSurfaceLight">#21262D</color> <!-- Lighter surface -->
-    
-    <color name="colorError">#CF6679</color> <!-- Material Dark Error -->
-    <color name="colorSuccess">#00C853</color> <!-- Vibrant Green -->
-    
+    <color name="colorError">@color/red_accent</color>
+    <color name="colorSuccess">@color/green_secondary</color>
+
     <color name="colorOnPrimary">#FFFFFF</color>
-    <color name="colorOnSecondary">#000000</color>
-    <color name="colorOnBackground">#E6EDF3</color> <!-- Off white text -->
-    <color name="colorOnSurface">#E6EDF3</color>
-    
-    <color name="cinematic_bg_start">#0f2027</color>
-    <color name="cinematic_bg_mid">#203a43</color>
-    <color name="cinematic_bg_end">#2c5364</color>
-    
-    <!-- Text Colors -->
-    <color name="textColorPrimary">#E6EDF3</color>
-    <color name="textColorSecondary">#8B949E</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorOnBackground">@color/textColorPrimary</color>
+    <color name="colorOnSurface">@color/textColorPrimary</color>
+
+    <!-- Convenient Aliases (used in layouts) -->
+    <color name="textPrimary">@color/textColorPrimary</color>
+    <color name="textSecondary">@color/textColorSecondary</color>
+    <color name="divider">@color/colorDivider</color>
+    <color name="income">@color/status_income</color>
+    <color name="expense">@color/status_expense</color>
+    <color name="savings">@color/status_savings</color>
+    <color name="colorPrimaryLight">#DBEAFE</color>
+
+    <!-- Legacy/Compat -->
+    <color name="black">#020617</color> <!-- Deep Navy instead of pure black -->
+    <color name="white">#FFFFFF</color>
 </resources>

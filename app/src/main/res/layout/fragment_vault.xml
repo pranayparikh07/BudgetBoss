@@ -1,132 +1,349 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="?android:attr/colorBackground"
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/tvVaultTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Secure Vault"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@color/textColorPrimary"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- PIN Setup / Unlock View -->
     <LinearLayout
-        android:id="@+id/layoutPin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="32dp"
-        app:layout_constraintTop_toBottomOf="@id/tvVaultTitle"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:paddingBottom="100dp">
 
-        <TextView
-            android:id="@+id/tvPinMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter 6-digit PIN"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="PIN"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberPassword"
-                android:maxLength="6"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btnUnlock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Unlock"
-            android:layout_marginTop="24dp"/>
-
-    </LinearLayout>
-
-    <!-- Content View (Initially Hidden) -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutContent"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/tvVaultTitle"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <ImageView
-            android:id="@+id/ivLock"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@android:drawable/ic_lock_idle_lock"
-            app:tint="@color/colorSecondary"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <TextView
-            android:id="@+id/tvVaultBalance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="******"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorSecondary"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/ivLock"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <Button
-            android:id="@+id/btnReveal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reveal Balance"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/tvVaultBalance"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
+        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="48dp">
+
+            <TextView
+                android:id="@+id/tvVaultTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Secure Vault"
+                android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnBackground"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your private savings, protected by PIN"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <!-- PIN Setup / Unlock View -->
+        <LinearLayout
+            android:id="@+id/layoutPin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/btnReveal">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="48dp">
 
-            <Button
-                android:id="@+id/btnAddFunds"
+            <!-- Lock Icon -->
+            <FrameLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/bg_stat_savings">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_vault"
+                    app:tint="@color/status_savings"
+                    android:contentDescription="Vault Lock"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvPinMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Funds"
-                android:layout_marginEnd="16dp"/>
+                android:text="Enter 6-digit PIN"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="?attr/colorOnBackground"
+                android:layout_marginTop="24dp"/>
 
-            <Button
-                android:id="@+id/btnWithdraw"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Withdraw"
-                android:backgroundTint="@color/colorSecondaryVariant"/>
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorCardBorder">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="PIN"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="?attr/colorOnSurfaceVariant">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberPassword"
+                        android:maxLength="6"
+                        android:hint="Enter 6-digit PIN"
+                        android:textAlignment="center"
+                        android:letterSpacing="0.3"
+                        android:textSize="20sp"
+                        android:paddingVertical="16dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUnlock"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Unlock"
+                android:textAllCaps="false"
+                android:layout_marginTop="20dp"
+                app:cornerRadius="16dp"/>
 
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Content View (Initially Hidden) -->
+        <LinearLayout
+            android:id="@+id/layoutContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="24dp">
+
+            <!-- Balance Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/blue_primary">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="32dp">
+
+                    <ImageView
+                        android:id="@+id/ivLock"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_vault"
+                        app:tint="@android:color/white"
+                        android:contentDescription="Vault"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vault Balance"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="#B3FFFFFF"
+                        android:layout_marginTop="16dp"/>
+
+                    <TextView
+                        android:id="@+id/tvVaultBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="******"
+                        android:textSize="36sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="8dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnReveal"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Reveal Balance"
+                        android:textColor="@color/blue_primary"
+                        app:backgroundTint="@android:color/white"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_visibility"
+                        app:iconTint="@color/blue_primary"
+                        app:iconSize="18dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Buttons -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quick Actions"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnBackground"
+                android:layout_marginTop="28dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:baselineAligned="false">
+
+                <!-- Add Funds Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btnAddFunds"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/colorCardBorder"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="20dp">
+
+                        <FrameLayout
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_stat_income">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add_income"
+                                app:tint="@color/status_income"
+                                android:contentDescription="Add"/>
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Funds"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textStyle="bold"
+                            android:textColor="?attr/colorOnSurface"
+                            android:layout_marginTop="12dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cash or UPI"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Withdraw Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btnWithdraw"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/colorCardBorder"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="20dp">
+
+                        <FrameLayout
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_stat_expense">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add_expense"
+                                app:tint="@color/status_expense"
+                                android:contentDescription="Withdraw"/>
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Withdraw"
+                            android:textAppearance="?attr/textAppearanceTitleSmall"
+                            android:textStyle="bold"
+                            android:textColor="?attr/colorOnSurface"
+                            android:layout_marginTop="12dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="To Cash or UPI"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Recent Activity -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Security Tips"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnBackground"
+                android:layout_marginTop="28dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorCardBorder">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="• Never share your PIN with anyone\n• Change your PIN regularly\n• Keep track of your vault transactions"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:lineSpacingExtra="6dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

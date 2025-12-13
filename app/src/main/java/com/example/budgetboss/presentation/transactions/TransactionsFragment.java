@@ -40,7 +40,23 @@ public class TransactionsFragment extends Fragment {
         binding.rvTransactions.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvTransactions.setAdapter(adapter);
 
-        viewModel.getRecentTransactions().observe(getViewLifecycleOwner(), adapter::setTransactions);
+        viewModel.getRecentTransactions().observe(getViewLifecycleOwner(), transactions -> {
+            adapter.setTransactions(transactions);
+            // Show/hide empty state
+            if (transactions == null || transactions.isEmpty()) {
+                binding.layoutEmpty.setVisibility(android.view.View.VISIBLE);
+                binding.rvTransactions.setVisibility(android.view.View.GONE);
+            } else {
+                binding.layoutEmpty.setVisibility(android.view.View.GONE);
+                binding.rvTransactions.setVisibility(android.view.View.VISIBLE);
+            }
+        });
+        
+        // Empty state button
+        binding.btnAddTransaction.setOnClickListener(v -> {
+            androidx.navigation.Navigation.findNavController(view)
+                .navigate(com.example.budgetboss.R.id.action_transactionsFragment_to_addTransactionFragment);
+        });
 
         // TODO: Add search/filter logic if requested later
     }

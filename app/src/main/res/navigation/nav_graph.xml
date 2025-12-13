@@ -80,7 +80,12 @@
         android:id="@+id/addTransactionFragment"
         android:name="com.example.budgetboss.presentation.transactions.AddTransactionFragment"
         android:label="fragment_add_transaction"
-        tools:layout="@layout/fragment_add_transaction" />
+        tools:layout="@layout/fragment_add_transaction" >
+        <argument
+            android:name="prefillType"
+            app:argType="string"
+            android:defaultValue="expense" />
+    </fragment>
     <fragment
         android:id="@+id/budgetFragment"
         android:name="com.example.budgetboss.presentation.budget.BudgetFragment"
@@ -127,7 +132,11 @@
         android:id="@+id/transactionsFragment"
         android:name="com.example.budgetboss.presentation.transactions.TransactionsFragment"
         android:label="fragment_transactions"
-        tools:layout="@layout/fragment_transactions" />
+        tools:layout="@layout/fragment_transactions">
+        <action
+            android:id="@+id/action_transactionsFragment_to_addTransactionFragment"
+            app:destination="@id/addTransactionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/aiChatFragment"
         android:name="com.example.budgetboss.presentation.ai.AIChatFragment"

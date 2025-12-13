@@ -9,6 +9,7 @@ public class Investment implements Serializable {
         SIP,
         FD,
         STOCK,
+        MUTUAL_FUND,
         OTHER
     }
 
