@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 import dagger.hilt.android.AndroidEntryPoint;
 import com.example.budgetboss.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
@@ -32,10 +33,23 @@ public class MainActivity extends AppCompatActivity {
         // Hide bottom nav when keyboard is shown
         setupKeyboardListener();
 
-        // Check for widget deep link
+        // Check for navigation intent
         final boolean[] pendingAddTransaction = { false };
-        if (getIntent() != null && "add_transaction".equals(getIntent().getStringExtra("NAVIGATE_TO"))) {
-            pendingAddTransaction[0] = true;
+        final boolean[] pendingLogin = { false };
+        
+        if (getIntent() != null) {
+            String navigateTo = getIntent().getStringExtra("NAVIGATE_TO");
+            if ("add_transaction".equals(navigateTo)) {
+                pendingAddTransaction[0] = true;
+            } else if ("login".equals(navigateTo)) {
+                pendingLogin[0] = true;
+            }
+        }
+        
+        // Check Firebase auth status
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null && !pendingLogin[0]) {
+            pendingLogin[0] = true;
         }
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {

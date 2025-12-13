@@ -21,7 +21,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
-import com.example.budgetboss.MainActivity;
+import com.example.budgetboss.SplashActivity;
 import com.example.budgetboss.R;
 
 public class IntroActivity extends AppCompatActivity {
@@ -41,8 +41,8 @@ public class IntroActivity extends AppCompatActivity {
         boolean introShown = prefs.getBoolean(KEY_INTRO_SHOWN, false);
 
         if (introShown) {
-            // Skip intro and go directly to main
-            navigateToMain();
+            // Skip intro and go directly to splash
+            navigateToSplash();
             return;
         }
 
@@ -185,15 +185,15 @@ public class IntroActivity extends AppCompatActivity {
                 SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
                 prefs.edit().putBoolean(KEY_INTRO_SHOWN, true).apply();
                 
-                // Navigate to main
-                navigateToMain();
+                // Navigate to splash
+                navigateToSplash();
             }
         });
         fadeOut.start();
     }
 
-    private void navigateToMain() {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void navigateToSplash() {
+        Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
         finish();
         // No animation for seamless transition

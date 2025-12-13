@@ -3,17 +3,35 @@
     android:height="120dp"
     android:viewportWidth="120"
     android:viewportHeight="120">
+    
+    <!-- Background Circle - Authority Blue -->
     <path
-        android:fillColor="#0A1F33"
-        android:pathData="M10,20a10,10 0 0 1 10,-10h80a10,10 0 0 1 10,10v80a10,10 0 0 1 -10,10h-80a10,10 0 0 1 -10,-10z"/>
+        android:fillColor="#1E3A8A"
+        android:pathData="M60,60m-55,0a55,55 0,1 1,110 0a55,55 0,1 1,-110 0" />
+    
+    <!-- Inner Ring - Blue Light -->
     <path
-        android:fillColor="#DAA520"
-        android:pathData="M36,36h48c6.627,0 12,5.373 12,12v24c0,6.627 -5.373,12 -12,12H36c-6.627,0 -12,-5.373 -12,-12V48c0,-6.627 5.373,-12 12,-12z"/>
+        android:fillColor="#3B82F6"
+        android:pathData="M60,60m-45,0a45,45 0,1 1,90 0a45,45 0,1 1,-90 0" />
+    
+    <!-- Center Circle - Authority Blue -->
     <path
-        android:fillColor="#2BD9C5"
-        android:pathData="M60,30c9.941,0 18,8.059 18,18s-8.059,18 -18,18 -18,-8.059 -18,-18 8.059,-18 18,-18z"/>
+        android:fillColor="#1E3A8A"
+        android:pathData="M60,60m-36,0a36,36 0,1 1,72 0a36,36 0,1 1,-72 0" />
+    
+    <!-- B Letter - Main Body -->
     <path
-        android:fillColor="#0A0F18"
-        android:fillAlpha="0.85"
-        android:pathData="M54,60l6,12l12,-24l-8,0l-4,8l-2.5,-5z"/>
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,40L42,80L58,80C66,80 72,75 72,68C72,63 69,59 64,58C68,56 70,53 70,49C70,43 65,40 58,40L42,40ZM50,47L56,47C59,47 62,48 62,52C62,55 59,57 56,57L50,57L50,47ZM50,63L58,63C62,63 64,65 64,68C64,72 61,73 58,73L50,73L50,63Z" />
+    
+    <!-- Growth Arrow - Profit Green -->
+    <path
+        android:fillColor="#22C55E"
+        android:pathData="M78,35L88,25L88,32L95,32L95,38L88,38L88,45L78,35Z" />
+    
+    <!-- Small accent dot -->
+    <path
+        android:fillColor="#15803D"
+        android:pathData="M25,60m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+    
 </vector>

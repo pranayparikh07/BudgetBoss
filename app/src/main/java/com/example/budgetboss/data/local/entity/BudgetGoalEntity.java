@@ -1,6 +1,7 @@
 package com.example.budgetboss.data.local.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 
@@ -14,6 +15,11 @@ public class BudgetGoalEntity {
     public String period; // Weekly, Monthly
     public long createdAt;
 
+    // Required empty constructor for Firebase
+    public BudgetGoalEntity() {
+    }
+
+    @Ignore
     public BudgetGoalEntity(String userId, String category, double limitAmount, String period, long createdAt) {
         this.userId = userId;
         this.category = category;
