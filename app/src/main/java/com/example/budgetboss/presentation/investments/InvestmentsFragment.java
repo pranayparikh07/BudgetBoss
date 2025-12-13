@@ -47,15 +47,13 @@ public class InvestmentsFragment extends Fragment {
 
         viewModel.getInvestments().observe(getViewLifecycleOwner(), investments -> {
             adapter.setInvestments(investments);
-            // Toggle empty state
+            // Toggle empty state - FAB always visible
             if (investments == null || investments.isEmpty()) {
                 binding.layoutEmpty.setVisibility(View.VISIBLE);
                 binding.rvInvestments.setVisibility(View.GONE);
-                binding.fabAddInvestment.setVisibility(View.GONE);
             } else {
                 binding.layoutEmpty.setVisibility(View.GONE);
                 binding.rvInvestments.setVisibility(View.VISIBLE);
-                binding.fabAddInvestment.setVisibility(View.VISIBLE);
             }
         });
 
@@ -95,6 +93,11 @@ public class InvestmentsFragment extends Fragment {
         dialogView.findViewById(com.example.budgetboss.R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
         
         dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                android.view.WindowManager.LayoutParams.MATCH_PARENT,
+                android.view.WindowManager.LayoutParams.WRAP_CONTENT);
+        }
     }
     
     private void showDeleteConfirmDialog(Investment investment) {
@@ -122,6 +125,11 @@ public class InvestmentsFragment extends Fragment {
         dialogView.findViewById(com.example.budgetboss.R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
         
         dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                android.view.WindowManager.LayoutParams.MATCH_PARENT,
+                android.view.WindowManager.LayoutParams.WRAP_CONTENT);
+        }
     }
 
     private void showAddInvestmentDialog(@Nullable Investment investmentToEdit) {
@@ -319,6 +327,11 @@ public class InvestmentsFragment extends Fragment {
         });
 
         dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                android.view.WindowManager.LayoutParams.MATCH_PARENT,
+                android.view.WindowManager.LayoutParams.WRAP_CONTENT);
+        }
     }
 
     class InvestmentAdapter extends RecyclerView.Adapter<InvestmentAdapter.ViewHolder> {

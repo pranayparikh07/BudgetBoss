@@ -96,7 +96,6 @@ public class BudgetFragment extends Fragment {
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialog.getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-            // Add dim background
             dialog.getWindow().setDimAmount(0.7f);
         }
         
@@ -166,6 +165,12 @@ public class BudgetFragment extends Fragment {
         });
         
         dialog.show();
+        // Set layout AFTER show() for proper width
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                android.view.WindowManager.LayoutParams.MATCH_PARENT,
+                android.view.WindowManager.LayoutParams.WRAP_CONTENT);
+        }
     }
     
     private void showSuccessMessage(String message) {

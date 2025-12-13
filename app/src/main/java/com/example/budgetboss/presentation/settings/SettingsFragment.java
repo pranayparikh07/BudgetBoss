@@ -81,5 +81,10 @@ public class SettingsFragment extends Fragment {
         dialogView.findViewById(R.id.btnClose).setOnClickListener(v -> dialog.dismiss());
         
         dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                android.view.WindowManager.LayoutParams.MATCH_PARENT,
+                android.view.WindowManager.LayoutParams.WRAP_CONTENT);
+        }
     }
 }
