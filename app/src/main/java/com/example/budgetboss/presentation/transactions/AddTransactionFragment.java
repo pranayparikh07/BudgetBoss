@@ -29,7 +29,7 @@ public class AddTransactionFragment extends Fragment {
 
     private FragmentAddTransactionBinding binding;
     private TransactionViewModel viewModel;
-    
+
     private final ActivityResultLauncher<Intent> receiptScannerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {

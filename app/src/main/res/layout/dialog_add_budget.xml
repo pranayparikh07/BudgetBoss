@@ -82,14 +82,14 @@
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusBottomEnd="12dp"
             app:startIconDrawable="@drawable/ic_category"
-            app:startIconTint="?attr/colorOnSurfaceVariant">
+            app:startIconTint="?attr/colorOnSurfaceVariant"
+            app:placeholderText="e.g. Food, Transport, Shopping">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:hint="e.g. Food, Transport, Shopping"/>
+                android:inputType="textCapWords"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Amount Input -->
@@ -105,14 +105,14 @@
             app:boxCornerRadiusBottomEnd="12dp"
             app:prefixText="₹"
             app:startIconDrawable="@drawable/ic_expense"
-            app:startIconTint="?attr/colorOnSurfaceVariant">
+            app:startIconTint="?attr/colorOnSurfaceVariant"
+            app:placeholderText="0.00">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:hint="0.00"/>
+                android:inputType="numberDecimal"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Period Selection -->

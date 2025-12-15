@@ -14,6 +14,7 @@ public class BudgetGoalEntity {
     public double limitAmount;
     public String period; // Weekly, Monthly
     public long createdAt;
+    public String firebaseKey; // Firebase database key for sync
 
     // Required empty constructor for Firebase
     public BudgetGoalEntity() {

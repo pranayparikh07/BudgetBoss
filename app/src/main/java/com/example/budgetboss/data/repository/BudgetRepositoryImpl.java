@@ -44,6 +44,8 @@ public class BudgetRepositoryImpl implements BudgetRepository {
                         for (DataSnapshot child : snapshot.getChildren()) {
                             BudgetGoalEntity budget = child.getValue(BudgetGoalEntity.class);
                             if (budget != null) {
+                                // Store the Firebase key for proper sync
+                                budget.firebaseKey = child.getKey();
                                 budgetDao.insertBudgetGoal(budget);
                             }
                         }
@@ -60,12 +62,24 @@ public class BudgetRepositoryImpl implements BudgetRepository {
 
     @Override
     public void addBudgetGoal(BudgetGoalEntity budgetGoal) {
-        executor.execute(() -> budgetDao.insertBudgetGoal(budgetGoal));
-        
-        // Sync to Firebase
+        // Generate a unique key for Firebase first
+        String uniqueKey;
         if (firebaseAuth.getCurrentUser() != null) {
             String userId = firebaseAuth.getCurrentUser().getUid();
-            DatabaseReference ref = firebaseDatabase.getReference("budgets").child(userId).child(String.valueOf(budgetGoal.id));
+            uniqueKey = firebaseDatabase.getReference("budgets").child(userId).push().getKey();
+        } else {
+            uniqueKey = "local_" + System.currentTimeMillis();
+        }
+        
+        // Store the Firebase key for later updates/deletes
+        budgetGoal.firebaseKey = uniqueKey;
+        
+        executor.execute(() -> budgetDao.insertBudgetGoal(budgetGoal));
+        
+        // Sync to Firebase with the same unique key
+        if (firebaseAuth.getCurrentUser() != null) {
+            String userId = firebaseAuth.getCurrentUser().getUid();
+            DatabaseReference ref = firebaseDatabase.getReference("budgets").child(userId).child(uniqueKey);
             ref.setValue(budgetGoal);
         }
     }
@@ -74,10 +88,10 @@ public class BudgetRepositoryImpl implements BudgetRepository {
     public void updateBudgetGoal(BudgetGoalEntity budgetGoal) {
         executor.execute(() -> budgetDao.updateBudgetGoal(budgetGoal));
         
-        // Sync to Firebase
-        if (firebaseAuth.getCurrentUser() != null) {
+        // Sync to Firebase using the stored firebaseKey
+        if (firebaseAuth.getCurrentUser() != null && budgetGoal.firebaseKey != null) {
             String userId = firebaseAuth.getCurrentUser().getUid();
-            DatabaseReference ref = firebaseDatabase.getReference("budgets").child(userId).child(String.valueOf(budgetGoal.id));
+            DatabaseReference ref = firebaseDatabase.getReference("budgets").child(userId).child(budgetGoal.firebaseKey);
             ref.setValue(budgetGoal);
         }
     }
@@ -86,10 +100,10 @@ public class BudgetRepositoryImpl implements BudgetRepository {
     public void deleteBudgetGoal(BudgetGoalEntity budgetGoal) {
         executor.execute(() -> budgetDao.deleteBudgetGoal(budgetGoal));
         
-        // Remove from Firebase
-        if (firebaseAuth.getCurrentUser() != null) {
+        // Remove from Firebase using the stored firebaseKey
+        if (firebaseAuth.getCurrentUser() != null && budgetGoal.firebaseKey != null) {
             String userId = firebaseAuth.getCurrentUser().getUid();
-            DatabaseReference ref = firebaseDatabase.getReference("budgets").child(userId).child(String.valueOf(budgetGoal.id));
+            DatabaseReference ref = firebaseDatabase.getReference("budgets").child(userId).child(budgetGoal.firebaseKey);
             ref.removeValue();
         }
     }

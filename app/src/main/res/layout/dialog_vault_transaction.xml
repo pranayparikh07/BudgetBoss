@@ -179,15 +179,15 @@
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusBottomEnd="12dp"
-            app:prefixText="₹">
+            app:prefixText="₹"
+            app:placeholderText="0.00">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:textSize="20sp"
-                android:hint="0.00"/>
+                android:textSize="20sp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Buttons -->
