@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.svg" width="120" alt="BudgetBoss Logo"/>
+  <img src="![logo](https://github.com/user-attachments/assets/b95a4305-46f0-4e28-8196-361743885e3e)" width="120" alt="BudgetBoss Logo"/>
 </p>
 
 <h1 align="center">💰 BudgetBoss</h1>
@@ -393,10 +393,10 @@ copies or substantial portions of the Software.
 
 | Role | Contributor |
 |------|-------------|
-| 🎨 UI/UX Design | Team Member |
-| 💻 Android Development | Team Member |
-| 🔥 Firebase Integration | Team Member |
-| 🧪 Testing & QA | Team Member |
+| 🎨 UI/UX Design | Shreya Oza & Vishwa Astik |
+| 💻 Android Development | Pranay Parikh & Raj Kalotara |
+| 🔥 Firebase Integration | Pranay Parikh & Raj Kalotara |
+| 🧪 Testing & QA | Vishwa Astik |
 
 ---
 
