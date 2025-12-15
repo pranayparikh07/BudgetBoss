@@ -18,17 +18,6 @@
   <img src="https://img.shields.io/badge/Firebase-Realtime%20DB-FFCA28?style=flat&logo=firebase" alt="Firebase"/>
 </p>
 
----
-
-## 📱 Screenshots
-
-| Intro | Dashboard | Transactions | Budget |
-|:---:|:---:|:---:|:---:|
-| ![Intro](docs/screenshots/intro.png) | ![Dashboard](docs/screenshots/dashboard.png) | ![Transactions](docs/screenshots/transactions.png) | ![Budget](docs/screenshots/budget.png) |
-
-| Investments | Vault | Profile | Dark Mode |
-|:---:|:---:|:---:|:---:|
-| ![Investments](docs/screenshots/investments.png) | ![Vault](docs/screenshots/vault.png) | ![Profile](docs/screenshots/profile.png) | ![Dark](docs/screenshots/dark_mode.png) |
 
 ---
 
