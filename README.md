@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="![logo](https://github.com/user-attachments/assets/b95a4305-46f0-4e28-8196-361743885e3e)" width="120" alt="BudgetBoss Logo"/>
+  <img src="https://github.com/user-attachments/assets/b95a4305-46f0-4e28-8196-361743885e3e" width="120" alt="BudgetBoss Logo"/>
 </p>
 
 <h1 align="center">💰 BudgetBoss</h1>
