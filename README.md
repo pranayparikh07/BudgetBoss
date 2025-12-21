@@ -400,6 +400,20 @@ copies or substantial portions of the Software.
 
 ---
 
+## 🎨 UI/UX Design Resources
+
+### Figma Design
+🔗 **Figma Link**: [BudgetBoss UI Design](https://www.figma.com/design/rYdvcqIPTmpFEPb0O3mfsd/BudgetBoss-UI?node-id=0-1&t=HNUJxloIpGLpXPot-1)
+
+**UI Design by**: Vishwa Astik & Shreya Oza
+
+### Wireframe
+🔗 **Wireframe Link**: [BudgetBoss Wireframe](https://www.figma.com/design/lbLXw6D2CbNxvwpNTGl7Pr/BudgetBoss-WireFrame?t=HNUJxloIpGLpXPot-1)
+
+**Wireframe by**: Raj Kalotara & Pranay Parikh
+
+---
+
 ## 🙏 Acknowledgments
 
 - [Material Design 3](https://m3.material.io/) - Design system
