@@ -393,10 +393,10 @@ copies or substantial portions of the Software.
 
 | Role | Contributor |
 |------|-------------|
-| 🎨 UI/UX Design | Shreya Oza & Vishwa Astik |
-| 💻 Android Development | Pranay Parikh & Raj Kalotara |
+| 🎨 UI/UX Design | Vishwa Astikh & Shreya Oza |
+| 💻 Android Development | Pranay Parikh & Shreya Oza |
 | 🔥 Firebase Integration | Pranay Parikh & Raj Kalotara |
-| 🧪 Testing & QA | Vishwa Astik |
+| 🧪 Testing & QA | Vishwa Astik & Raj Kalotara |
 
 ---
 
