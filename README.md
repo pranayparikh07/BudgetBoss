@@ -218,7 +218,7 @@ app/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/BudgetBoss.git
+   git clone https://github.com/pranayparikh07/BudgetBoss.git
    cd BudgetBoss
    ```
 
